@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df_silver_tipos_movimiento",
+						"referenceName": "df_silver_tipos_operacion",
 						"type": "DataFlowReference"
 					},
 					"compute": {
