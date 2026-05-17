@@ -1,0 +1,50 @@
+{
+	"name": "gold_dim_zona",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dw_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "gold"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "zona_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_zona",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "nombre",
+				"type": "varchar"
+			},
+			{
+				"name": "departamento",
+				"type": "varchar"
+			},
+			{
+				"name": "frontera_con",
+				"type": "varchar"
+			},
+			{
+				"name": "tipo_terreno",
+				"type": "varchar"
+			},
+			{
+				"name": "nivel_riesgo",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gold",
+			"table": "dim_zona"
+		}
+	}
+}

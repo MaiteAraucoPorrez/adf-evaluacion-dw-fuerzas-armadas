@@ -1,0 +1,96 @@
+{
+	"name": "gold_hechos_operaciones",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dw_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "gold"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "operacion_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fecha_inicio_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fecha_fin_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "unidad_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "tipo_op_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "zona_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "efectivos_desplegados",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "vehiculos_utilizados",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "duracion_dias",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "costo_operacion",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "detenidos",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "area_km2",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "incidentes",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "resultado",
+				"type": "varchar"
+			},
+			{
+				"name": "id_operacion_origen",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "gold",
+			"table": "hechos_operaciones"
+		}
+	}
+}

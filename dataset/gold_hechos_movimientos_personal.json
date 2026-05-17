@@ -1,0 +1,67 @@
+{
+	"name": "gold_hechos_movimientos_personal",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dw_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "gold"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "movimiento_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fecha_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "efectivo_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "rango_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "unidad_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "tipo_mov_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "antiguedad_anios",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 1
+			},
+			{
+				"name": "salario_mensual",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "id_movimiento_origen",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "gold",
+			"table": "hechos_movimientos_personal"
+		}
+	}
+}
