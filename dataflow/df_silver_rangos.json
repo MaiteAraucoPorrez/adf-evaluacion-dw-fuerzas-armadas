@@ -1,0 +1,69 @@
+{
+	"name": "df_silver_rangos",
+	"properties": {
+		"folder": {
+			"name": "silver"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "bronze_rangos",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "silver_rangos",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          id_rango as integer,",
+				"          nombre as string,",
+				"          categoria as string,",
+				"          nivel_jerarquico as integer,",
+				"          abreviatura as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\n    CAST(id_rango AS INT)        AS id_rango,\\n    TRIM(nombre)                 AS nombre,\\n    TRIM(categoria)              AS categoria,\\n    CAST(nivel_jerarquico AS INT) AS nivel_jerarquico,\\n    TRIM(abreviatura)            AS abreviatura\\nFROM bronze.rangos\\nWHERE id_rango IS NOT NULL AND id_rango <> \\'\\'',",
+				"     format: 'query') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_rango as integer,",
+				"          nombre as string,",
+				"          categoria as string,",
+				"          nivel_jerarquico as integer,",
+				"          abreviatura as string,",
+				"          fecha_carga as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id_rango,",
+				"          nombre,",
+				"          categoria,",
+				"          nivel_jerarquico,",
+				"          abreviatura",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
