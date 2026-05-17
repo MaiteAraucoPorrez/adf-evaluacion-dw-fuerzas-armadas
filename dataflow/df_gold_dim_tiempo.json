@@ -1,0 +1,81 @@
+{
+	"name": "df_gold_dim_tiempo",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "dw_fuerzas_armadas",
+						"type": "LinkedServiceReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_dim_tiempo",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          fecha_key as integer,",
+				"          fecha as date,",
+				"          dia_mes as integer,",
+				"          mes as integer,",
+				"          nombre_mes as string,",
+				"          trimestre as integer,",
+				"          anio as integer,",
+				"          nombre_dia as string,",
+				"          es_fin_semana as boolean",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'query',",
+				"     store: 'sqlserver',",
+				"     query: 'SELECT DISTINCT\\n    CAST(FORMAT(fecha, \\'yyyyMMdd\\') AS INT)      AS fecha_key,\\n    fecha,\\n    DAY(fecha)                                  AS dia_mes,\\n    MONTH(fecha)                                AS mes,\\n    DATENAME(MONTH, fecha)                      AS nombre_mes,\\n    DATEPART(QUARTER, fecha)                    AS trimestre,\\n    YEAR(fecha)                                 AS anio,\\n    DATENAME(WEEKDAY, fecha)                    AS nombre_dia,\\n    CAST(CASE WHEN DATEPART(WEEKDAY, fecha)\\n         IN (1, 7) THEN 1 ELSE 0 END AS BIT)   AS es_fin_semana\\nFROM (\\n    SELECT fecha_movimiento AS fecha \\n    FROM silver.movimientos_personal\\n    WHERE fecha_movimiento IS NOT NULL\\n    UNION\\n    SELECT fecha_inicio AS fecha \\n    FROM silver.operaciones\\n    WHERE fecha_inicio IS NOT NULL\\n    UNION\\n    SELECT fecha_fin AS fecha \\n    FROM silver.operaciones\\n    WHERE fecha_fin IS NOT NULL\\n) AS todas_las_fechas',",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          fecha_key as integer,",
+				"          fecha as date,",
+				"          dia_mes as integer,",
+				"          mes as integer,",
+				"          nombre_mes as string,",
+				"          trimestre as integer,",
+				"          anio as integer,",
+				"          nombre_dia as string,",
+				"          es_fin_semana as boolean",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          fecha_key,",
+				"          fecha,",
+				"          dia_mes,",
+				"          mes,",
+				"          nombre_mes,",
+				"          trimestre,",
+				"          anio,",
+				"          nombre_dia,",
+				"          es_fin_semana",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

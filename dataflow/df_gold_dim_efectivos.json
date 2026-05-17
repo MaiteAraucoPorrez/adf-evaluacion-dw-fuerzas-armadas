@@ -1,0 +1,95 @@
+{
+	"name": "df_gold_dim_efectivos",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "silver_efectivos",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_dim_efectivo",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id_efectivo as integer,",
+				"          id_especialidad as integer,",
+				"          id_unidad_actual as integer,",
+				"          id_rango_actual as integer,",
+				"          nombre as string,",
+				"          ci as string,",
+				"          fecha_nacimiento as date,",
+				"          genero as string,",
+				"          departamento_origen as string,",
+				"          fecha_ingreso as date,",
+				"          estado as string,",
+				"          salario_mensual as decimal(18,2),",
+				"          fecha_carga as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source1 select(mapColumn(",
+				"          id_efectivo,",
+				"          nombre,",
+				"          ci,",
+				"          genero,",
+				"          departamento_origen,",
+				"          fecha_ingreso,",
+				"          estado",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          efectivo_key as integer,",
+				"          id_efectivo as integer,",
+				"          nombre as string,",
+				"          ci as string,",
+				"          genero as string,",
+				"          departamento_origen as string,",
+				"          fecha_ingreso as date,",
+				"          estado as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id_efectivo,",
+				"          nombre,",
+				"          ci,",
+				"          genero,",
+				"          departamento_origen,",
+				"          fecha_ingreso,",
+				"          estado",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
