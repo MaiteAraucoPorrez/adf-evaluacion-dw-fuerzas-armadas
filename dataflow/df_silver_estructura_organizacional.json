@@ -51,7 +51,6 @@
 				"     query: 'SELECT\\n    TRIM(id_estructura)           AS id_estructura,\\n    TRIM(id_padre)                AS id_padre,\\n    TRIM(nivel)                   AS nivel,\\n    TRIM(nombre)                  AS nombre,\\n    TRIM(sigla)                   AS sigla,\\n    TRIM(tipo)                    AS tipo,\\n    TRIM(cobertura_departamentos) AS cobertura_departamentos\\nFROM bronze.estructura_organizacional\\nWHERE TRIM(id_estructura) IS NOT NULL',",
 				"     format: 'query') ~> source1",
 				"source1 derive(id_estructura = toInteger(id_estructura),",
-				"          id_padre = toInteger(id_padre),",
 				"          nivel = case(\r",
 				"  upper(trim(nivel)) == 'DIVISION', 'División',\r",
 				"  initCap(trim(nivel))\r",
