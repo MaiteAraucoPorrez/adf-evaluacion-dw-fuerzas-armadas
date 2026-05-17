@@ -1,0 +1,56 @@
+{
+	"name": "bronze_movimientos_personal",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dw_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "bronze"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_movimiento",
+				"type": "varchar"
+			},
+			{
+				"name": "id_efectivo",
+				"type": "varchar"
+			},
+			{
+				"name": "id_unidad_destino",
+				"type": "varchar"
+			},
+			{
+				"name": "id_rango",
+				"type": "varchar"
+			},
+			{
+				"name": "id_tipo",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_movimiento",
+				"type": "varchar"
+			},
+			{
+				"name": "antiguedad_anios",
+				"type": "varchar"
+			},
+			{
+				"name": "salario_mensual",
+				"type": "varchar"
+			},
+			{
+				"name": "observaciones",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "bronze",
+			"table": "movimientos_personal"
+		}
+	}
+}
