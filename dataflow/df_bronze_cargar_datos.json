@@ -1,0 +1,243 @@
+{
+	"name": "df_bronze_cargar_datos",
+	"properties": {
+		"folder": {
+			"name": "bronze"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "tbl_efectivos_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "tbl_especialidades_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "tbl_estructura_organizacional_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "tbl_movimientos_personal_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source4"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "bronze_efectivos",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "bronze_especialidades",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				},
+				{
+					"dataset": {
+						"referenceName": "bronze_estructura_organizacional",
+						"type": "DatasetReference"
+					},
+					"name": "sink3"
+				},
+				{
+					"dataset": {
+						"referenceName": "bronze_movimientos_personal",
+						"type": "DatasetReference"
+					},
+					"name": "sink4"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          id_efectivo as string,",
+				"          id_especialidad as string,",
+				"          id_unidad_actual as string,",
+				"          id_rango_actual as string,",
+				"          nombre as string,",
+				"          ci as string,",
+				"          fecha_nacimiento as string,",
+				"          genero as string,",
+				"          departamento_origen as string,",
+				"          fecha_ingreso as string,",
+				"          estado as string,",
+				"          salario_mensual as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source(output(",
+				"          id_especialidad as string,",
+				"          nombre as string,",
+				"          area as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source2",
+				"source(output(",
+				"          id_estructura as string,",
+				"          id_padre as string,",
+				"          nivel as string,",
+				"          nombre as string,",
+				"          sigla as string,",
+				"          tipo as string,",
+				"          cobertura_departamentos as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source3",
+				"source(output(",
+				"          id_movimiento as string,",
+				"          id_efectivo as string,",
+				"          id_unidad_destino as string,",
+				"          id_rango as string,",
+				"          id_tipo as string,",
+				"          fecha_movimiento as string,",
+				"          antiguedad_anios as string,",
+				"          salario_mensual as string,",
+				"          observaciones as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source4",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_efectivo as string,",
+				"          id_especialidad as string,",
+				"          id_unidad_actual as string,",
+				"          id_rango_actual as string,",
+				"          nombre as string,",
+				"          ci as string,",
+				"          fecha_nacimiento as string,",
+				"          genero as string,",
+				"          departamento_origen as string,",
+				"          fecha_ingreso as string,",
+				"          estado as string,",
+				"          salario_mensual as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id_efectivo,",
+				"          id_especialidad,",
+				"          id_unidad_actual,",
+				"          id_rango_actual,",
+				"          nombre,",
+				"          ci,",
+				"          fecha_nacimiento,",
+				"          genero,",
+				"          departamento_origen,",
+				"          fecha_ingreso,",
+				"          estado,",
+				"          salario_mensual",
+				"     )) ~> sink1",
+				"source2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_especialidad as string,",
+				"          nombre as string,",
+				"          area as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id_especialidad,",
+				"          nombre,",
+				"          area",
+				"     )) ~> sink2",
+				"source3 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_estructura as string,",
+				"          id_padre as string,",
+				"          nivel as string,",
+				"          nombre as string,",
+				"          sigla as string,",
+				"          tipo as string,",
+				"          cobertura_departamentos as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id_estructura,",
+				"          id_padre,",
+				"          nivel,",
+				"          nombre,",
+				"          sigla,",
+				"          tipo,",
+				"          cobertura_departamentos",
+				"     )) ~> sink3",
+				"source4 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_movimiento as string,",
+				"          id_efectivo as string,",
+				"          id_unidad_destino as string,",
+				"          id_rango as string,",
+				"          id_tipo as string,",
+				"          fecha_movimiento as string,",
+				"          antiguedad_anios as string,",
+				"          salario_mensual as string,",
+				"          observaciones as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id_movimiento,",
+				"          id_efectivo,",
+				"          id_unidad_destino,",
+				"          id_rango,",
+				"          id_tipo,",
+				"          fecha_movimiento,",
+				"          antiguedad_anios,",
+				"          salario_mensual,",
+				"          observaciones",
+				"     )) ~> sink4"
+			]
+		}
+	}
+}

@@ -1,0 +1,75 @@
+{
+	"name": "tbl_efectivos_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dl_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "bronze"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "tbl_efectivos.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id_efectivo",
+				"type": "String"
+			},
+			{
+				"name": "id_especialidad",
+				"type": "String"
+			},
+			{
+				"name": "id_unidad_actual",
+				"type": "String"
+			},
+			{
+				"name": "id_rango_actual",
+				"type": "String"
+			},
+			{
+				"name": "nombre",
+				"type": "String"
+			},
+			{
+				"name": "ci",
+				"type": "String"
+			},
+			{
+				"name": "fecha_nacimiento",
+				"type": "String"
+			},
+			{
+				"name": "genero",
+				"type": "String"
+			},
+			{
+				"name": "departamento_origen",
+				"type": "String"
+			},
+			{
+				"name": "fecha_ingreso",
+				"type": "String"
+			},
+			{
+				"name": "estado",
+				"type": "String"
+			},
+			{
+				"name": "salario_mensual",
+				"type": "String"
+			}
+		]
+	}
+}

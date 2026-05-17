@@ -1,0 +1,55 @@
+{
+	"name": "tbl_estructura_organizacional_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dl_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "bronze"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "tbl_estructura_organizacional.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id_estructura",
+				"type": "String"
+			},
+			{
+				"name": "id_padre",
+				"type": "String"
+			},
+			{
+				"name": "nivel",
+				"type": "String"
+			},
+			{
+				"name": "nombre",
+				"type": "String"
+			},
+			{
+				"name": "sigla",
+				"type": "String"
+			},
+			{
+				"name": "tipo",
+				"type": "String"
+			},
+			{
+				"name": "cobertura_departamentos",
+				"type": "String"
+			}
+		]
+	}
+}

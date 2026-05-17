@@ -1,0 +1,59 @@
+{
+	"name": "tbl_zonas_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dl_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "bronze"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "tbl_zonas.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id_zona",
+				"type": "String"
+			},
+			{
+				"name": "nombre",
+				"type": "String"
+			},
+			{
+				"name": "departamento",
+				"type": "String"
+			},
+			{
+				"name": "frontera_con",
+				"type": "String"
+			},
+			{
+				"name": "tipo_terreno",
+				"type": "String"
+			},
+			{
+				"name": "altitud_msnm",
+				"type": "String"
+			},
+			{
+				"name": "nivel_riesgo",
+				"type": "String"
+			},
+			{
+				"name": "acceso_carretero",
+				"type": "String"
+			}
+		]
+	}
+}

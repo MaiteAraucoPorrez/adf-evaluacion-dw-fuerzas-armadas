@@ -1,0 +1,63 @@
+{
+	"name": "tbl_operaciones_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dl_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "bronze"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "tbl_operaciones.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id_movimiento",
+				"type": "String"
+			},
+			{
+				"name": "id_efectivo",
+				"type": "String"
+			},
+			{
+				"name": "id_unidad_destino",
+				"type": "String"
+			},
+			{
+				"name": "id_rango",
+				"type": "String"
+			},
+			{
+				"name": "id_tipo",
+				"type": "String"
+			},
+			{
+				"name": "fecha_movimiento",
+				"type": "String"
+			},
+			{
+				"name": "antiguedad_anios",
+				"type": "String"
+			},
+			{
+				"name": "salario_mensual",
+				"type": "String"
+			},
+			{
+				"name": "observaciones",
+				"type": "String"
+			}
+		]
+	}
+}

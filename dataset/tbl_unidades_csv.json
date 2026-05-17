@@ -1,0 +1,55 @@
+{
+	"name": "tbl_unidades_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dl_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "bronze"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "tbl_unidades.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id_unidad",
+				"type": "String"
+			},
+			{
+				"name": "id_brigada",
+				"type": "String"
+			},
+			{
+				"name": "nombre",
+				"type": "String"
+			},
+			{
+				"name": "codigo",
+				"type": "String"
+			},
+			{
+				"name": "ciudad",
+				"type": "String"
+			},
+			{
+				"name": "departamento",
+				"type": "String"
+			},
+			{
+				"name": "tipo_cuartel",
+				"type": "String"
+			}
+		]
+	}
+}
