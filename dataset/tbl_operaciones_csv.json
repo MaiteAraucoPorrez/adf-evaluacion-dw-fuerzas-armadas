@@ -1,0 +1,91 @@
+{
+	"name": "tbl_operaciones_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dl_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "bronze"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "tbl_operaciones.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id_operacion",
+				"type": "String"
+			},
+			{
+				"name": "id_tipo",
+				"type": "String"
+			},
+			{
+				"name": "id_unidad_resp",
+				"type": "String"
+			},
+			{
+				"name": "id_zona",
+				"type": "String"
+			},
+			{
+				"name": "nombre_operacion",
+				"type": "String"
+			},
+			{
+				"name": "fecha_inicio",
+				"type": "String"
+			},
+			{
+				"name": "fecha_fin",
+				"type": "String"
+			},
+			{
+				"name": "efectivos_desplegados",
+				"type": "String"
+			},
+			{
+				"name": "vehiculos_utilizados",
+				"type": "String"
+			},
+			{
+				"name": "duracion_dias",
+				"type": "String"
+			},
+			{
+				"name": "costo_operacion",
+				"type": "String"
+			},
+			{
+				"name": "resultado",
+				"type": "String"
+			},
+			{
+				"name": "detenidos",
+				"type": "String"
+			},
+			{
+				"name": "area_km2",
+				"type": "String"
+			},
+			{
+				"name": "incidentes",
+				"type": "String"
+			},
+			{
+				"name": "observaciones",
+				"type": "String"
+			}
+		]
+	}
+}
