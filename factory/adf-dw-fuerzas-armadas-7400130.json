@@ -1,0 +1,15 @@
+{
+	"name": "adf-dw-fuerzas-armadas-7400130",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Enabled",
+			"editable": true
+		}
+	},
+	"location": "brazilsouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "a3fe4d02-f53f-4ba0-8fa6-43216eb4610f",
+		"tenantId": "cc28633f-12b8-46cb-bc15-951dae239b4d"
+	}
+}
