@@ -1,0 +1,71 @@
+{
+	"name": "silver_movimientos_personal",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dw_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "silver"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_movimiento",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_efectivo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_unidad_destino",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_rango",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_tipo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fecha_movimiento",
+				"type": "date"
+			},
+			{
+				"name": "antiguedad_anios",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 1
+			},
+			{
+				"name": "salario_mensual",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "observaciones",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_carga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "silver",
+			"table": "movimientos_personal"
+		}
+	}
+}
