@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df_silver_efectivos",
+						"referenceName": "df_silver_especialidades",
 						"type": "DataFlowReference"
 					},
 					"compute": {
