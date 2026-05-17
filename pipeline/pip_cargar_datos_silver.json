@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df_silver_operaciones",
+						"referenceName": "df_silver_rangos",
 						"type": "DataFlowReference"
 					},
 					"compute": {
