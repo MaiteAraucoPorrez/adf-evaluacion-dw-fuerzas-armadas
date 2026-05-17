@@ -1,0 +1,68 @@
+{
+	"name": "df_silver_tipos_operacion",
+	"properties": {
+		"folder": {
+			"name": "silver"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "bronze_tipos_operacion",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "silver_tipos_operacion",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id_tipo as integer,",
+				"          nombre as string,",
+				"          categoria as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\n    CAST(id_tipo AS INT) AS id_tipo,\\n    TRIM(nombre)         AS nombre,\\n    TRIM(categoria)      AS categoria\\nFROM bronze.tipos_operacion\\nWHERE id_tipo IS NOT NULL AND id_tipo <> \\'\\'',",
+				"     format: 'query') ~> source1",
+				"source1 derive(categoria = initCap(categoria)) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_tipo as integer,",
+				"          nombre as string,",
+				"          categoria as string,",
+				"          fecha_carga as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id_tipo,",
+				"          nombre,",
+				"          categoria",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
