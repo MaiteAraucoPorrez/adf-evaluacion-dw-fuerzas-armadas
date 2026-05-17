@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df_silver_estructura_organizacional",
+						"referenceName": "df_silver_movimientos_personal",
 						"type": "DataFlowReference"
 					},
 					"compute": {
