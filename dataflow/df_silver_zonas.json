@@ -1,0 +1,99 @@
+{
+	"name": "df_silver_zonas",
+	"properties": {
+		"folder": {
+			"name": "silver"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "bronze_zonas",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "silver_zonas",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "filter1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id_zona as string,",
+				"          nombre as string,",
+				"          departamento as string,",
+				"          frontera_con as string,",
+				"          tipo_terreno as string,",
+				"          altitud_msnm as string,",
+				"          nivel_riesgo as string,",
+				"          acceso_carretero as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\n    TRIM(id_zona)          AS id_zona,\\n    TRIM(nombre)           AS nombre,\\n    TRIM(departamento)     AS departamento,\\n    TRIM(frontera_con)     AS frontera_con,\\n    TRIM(tipo_terreno)     AS tipo_terreno,\\n    TRIM(altitud_msnm)     AS altitud_msnm,\\n    TRIM(nivel_riesgo)     AS nivel_riesgo,\\n    TRIM(acceso_carretero) AS acceso_carretero\\nFROM bronze.zonas\\nWHERE TRIM(id_zona) IS NOT NULL AND TRIM(id_zona) <> \\'\\'',",
+				"     format: 'query') ~> source1",
+				"source1 derive(id_zona = toInteger(id_zona),",
+				"          altitud_msnm = toInteger(altitud_msnm),",
+				"          frontera_con = iif(\r",
+				"    upper(trim(toString(frontera_con))) == 'NULL' ||\r",
+				"    trim(toString(frontera_con)) == '',\r",
+				"\r",
+				"    toString(null()),\r",
+				"\r",
+				"    initCap(lower(trim(toString(frontera_con))))\r",
+				"),",
+				"          acceso_carretero = iif(trim(toString(acceso_carretero)) == '1', true(), false()),",
+				"          nivel_riesgo = initCap(lower(trim(nivel_riesgo))),",
+				"          tipo_terreno = initCap(lower(trim(tipo_terreno)))) ~> derivedColumn1",
+				"derivedColumn1 filter(!isNull(id_zona) && id_zona > 0) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_zona as integer,",
+				"          nombre as string,",
+				"          departamento as string,",
+				"          frontera_con as string,",
+				"          tipo_terreno as string,",
+				"          altitud_msnm as integer,",
+				"          nivel_riesgo as string,",
+				"          acceso_carretero as boolean,",
+				"          fecha_carga as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id_zona,",
+				"          nombre,",
+				"          departamento,",
+				"          frontera_con,",
+				"          tipo_terreno,",
+				"          altitud_msnm,",
+				"          nivel_riesgo,",
+				"          acceso_carretero",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
