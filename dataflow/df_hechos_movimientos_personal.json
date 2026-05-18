@@ -1,0 +1,205 @@
+{
+	"name": "df_hechos_movimientos_personal",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "silver_movimientos_personal",
+						"type": "DatasetReference"
+					},
+					"name": "silverMovimientosPersonal"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_efectivo",
+						"type": "DatasetReference"
+					},
+					"name": "goldDimEfectivo"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_rango",
+						"type": "DatasetReference"
+					},
+					"name": "goldDimRango"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_unidad",
+						"type": "DatasetReference"
+					},
+					"name": "goldDimUnidad"
+				},
+				{
+					"dataset": {
+						"referenceName": "gold_dim_tipo_movimiento",
+						"type": "DatasetReference"
+					},
+					"name": "goldDimTipoMovimiento"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_hechos_movimientos_personal",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "lookup1"
+				},
+				{
+					"name": "lookup2"
+				},
+				{
+					"name": "lookup3"
+				},
+				{
+					"name": "lookup4"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id_movimiento as integer,",
+				"          id_efectivo as integer,",
+				"          id_unidad_destino as integer,",
+				"          id_rango as integer,",
+				"          id_tipo as integer,",
+				"          fecha_movimiento as date,",
+				"          antiguedad_anios as decimal(5,1),",
+				"          salario_mensual as decimal(18,2),",
+				"          observaciones as string,",
+				"          fecha_carga as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> silverMovimientosPersonal",
+				"source(output(",
+				"          efectivo_key as integer,",
+				"          id_efectivo as integer,",
+				"          nombre as string,",
+				"          ci as string,",
+				"          genero as string,",
+				"          departamento_origen as string,",
+				"          fecha_ingreso as date,",
+				"          estado as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> goldDimEfectivo",
+				"source(output(",
+				"          rango_key as integer,",
+				"          id_rango as integer,",
+				"          nombre as string,",
+				"          categoria as string,",
+				"          nivel_jerarquico as integer,",
+				"          abreviatura as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> goldDimRango",
+				"source(output(",
+				"          unidad_key as integer,",
+				"          id_unidad as integer,",
+				"          nombre as string,",
+				"          codigo as string,",
+				"          ciudad as string,",
+				"          departamento as string,",
+				"          tipo_cuartel as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> goldDimUnidad",
+				"source(output(",
+				"          tipo_mov_key as integer,",
+				"          id_tipo as integer,",
+				"          nombre as string,",
+				"          descripcion as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> goldDimTipoMovimiento",
+				"silverMovimientosPersonal, goldDimEfectivo lookup(silverMovimientosPersonal@id_efectivo == goldDimEfectivo@id_efectivo,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup1",
+				"lookup1, goldDimRango lookup(silverMovimientosPersonal@id_rango == goldDimRango@id_rango,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup2",
+				"lookup2, goldDimUnidad lookup(id_unidad_destino == id_unidad,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup3",
+				"lookup3, goldDimTipoMovimiento lookup(silverMovimientosPersonal@id_tipo == goldDimTipoMovimiento@id_tipo,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup4",
+				"lookup4 derive(fecha_key = toInteger(toString(fecha_movimiento, 'yyyyMMdd')),",
+				"          id_movimiento_origen = id_movimiento) ~> derivedColumn1",
+				"derivedColumn1 select(mapColumn(",
+				"          antiguedad_anios,",
+				"          salario_mensual,",
+				"          efectivo_key,",
+				"          rango_key,",
+				"          unidad_key,",
+				"          tipo_mov_key,",
+				"          fecha_key,",
+				"          id_movimiento_origen",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          movimiento_key as integer,",
+				"          fecha_key as integer,",
+				"          efectivo_key as integer,",
+				"          rango_key as integer,",
+				"          unidad_key as integer,",
+				"          tipo_mov_key as integer,",
+				"          antiguedad_anios as decimal(5,1),",
+				"          salario_mensual as decimal(18,2),",
+				"          id_movimiento_origen as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          fecha_key,",
+				"          efectivo_key,",
+				"          rango_key,",
+				"          unidad_key,",
+				"          tipo_mov_key,",
+				"          antiguedad_anios,",
+				"          salario_mensual,",
+				"          id_movimiento_origen",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
